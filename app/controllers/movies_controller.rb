@@ -12,6 +12,23 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.all
+    
+    if (params[:session] == "clear")
+      session[:sort] = nil
+    end
+    
+    if (params[:sort] != nil)
+      case params[:sort]
+      when "title"
+        @movies = @movies.order(:title)
+        @class_title = "hilite"
+        session[:sort] = "title"
+      when "release_date"
+        @movies = @movies.order(:release_date)
+        @class_release_date = "hilite"
+        session[:sort] = "release_date"
+      end
+    end
   end
 
   def new
